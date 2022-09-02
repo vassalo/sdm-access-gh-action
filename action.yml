@@ -24,6 +24,6 @@ runs:
       shell: bash
       env:
         RUN_ID: ${{ inputs.run-id }}
-        RANDOM_ACCESS_KEY: ${{ inputs.random-access-key }}
+        AG_RANDOM_ACCESS_KEY: ${{ inputs.random-access-key }}
         AG_SECRET: ${{ inputs.ag-secret }}
         SERVER_HOST: ${{ inputs.server-host }}
