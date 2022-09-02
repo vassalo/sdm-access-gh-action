@@ -13,7 +13,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: apt install python3-pip
+    - run: sudo apt install python3-pip
       shell: bash
     - run: pip install -r requirements.txt
       shell: bash
