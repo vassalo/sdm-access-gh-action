@@ -9,8 +9,7 @@ from uuid import uuid4
 GRANT_TIMEOUT = 60  # minutes
 
 utc_date = datetime.datetime.utcnow().strftime('%Y-%m-%d')
-random_access_key = uuid4()
-ACCESS_KEY = "{}:{}:{}".format(os.getenv("RUN_ID"), random_access_key, utc_date)
+ACCESS_KEY = "{}:{}:{}".format(os.getenv("RUN_ID"), os.getenv("RANDOM_ACCESS_KEY"), utc_date)
 SECRET_KEY = base64.b64encode(os.getenv("AG_SECRET").encode())
 
 
@@ -52,7 +51,6 @@ class GrantTemporaryAccess:
         )
 
 
-print(f"###random_access_key={random_access_key}###")
 resource_name, user_email = get_params()
 GrantTemporaryAccess(resource_name, user_email).execute()
 print(f"Temporary grant successfullly created for {user_email} on {resource_name}")
