@@ -19,3 +19,7 @@ runs:
       shell: bash
     - run: bash entrypoint.sh
       shell: bash
+      env:
+        RUN_ID: ${{ inputs.run-id }}
+        AG_SECRET: ${{ inputs.ag-secret }}
+        SERVER_HOST: ${{ inputs.server-host }}
