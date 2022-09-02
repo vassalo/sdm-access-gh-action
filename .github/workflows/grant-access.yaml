@@ -14,7 +14,10 @@ jobs:
 
       - name: 'Generate Access Granter random access key'
         id: ag-random-access-key-generator
-        run: echo "::set-output name=ag-random-access-key::$(python -c 'import uuid ; print(f"###random_access_key={uuid.uuid4()}###")')"
+        run: |
+          export RANDOM_KEY=$(echo $(python -c "import uuid ; print(uuid.uuid4())"))
+          echo "::set-output name=ag-random-access-key::$RANDOM_KEY"
+          echo '###random_access_key=$RANDOM_KEY###'
         shell: bash
 
       - name: 'SDM Access Granter Client'
