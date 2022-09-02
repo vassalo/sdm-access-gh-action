@@ -4,11 +4,13 @@ import os
 import sdm_service
 import sys
 import base64
+from uuid import uuid4
 
 GRANT_TIMEOUT = 60  # minutes
 
 utc_date = datetime.datetime.utcnow().strftime('%Y-%m-%d')
-ACCESS_KEY = "{}:{}".format(os.getenv("RUN_ID"), utc_date)
+random_access_key = uuid4()
+ACCESS_KEY = "{}:{}:{}".format(os.getenv("RUN_ID"), random_access_key, utc_date)
 SECRET_KEY = base64.b64encode(os.getenv("AG_SECRET").encode())
 
 
@@ -50,6 +52,7 @@ class GrantTemporaryAccess:
         )
 
 
+print(f"###random_access_key={random_access_key}###")
 resource_name, user_email = get_params()
 GrantTemporaryAccess(resource_name, user_email).execute()
 print(f"Temporary grant successfullly created for {user_email} on {resource_name}")
