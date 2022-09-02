@@ -4,13 +4,20 @@ import os
 import sdm_service
 import sys
 import base64
-from uuid import uuid4
 
-GRANT_TIMEOUT = 60  # minutes
+
+GRANT_TIMEOUT = int(os.getenv("GRANT_TIMEOUT", "60"))  # minutes
+REQUIRED_ENV_VARS = ["RUN_ID", "AG_RANDOM_ACCESS_KEY", "AG_SECRET", "SERVER_HOST"]
 
 utc_date = datetime.datetime.utcnow().strftime('%Y-%m-%d')
-ACCESS_KEY = "{}:{}:{}".format(os.getenv("RUN_ID"), os.getenv("RANDOM_ACCESS_KEY"), utc_date)
+ACCESS_KEY = "{}:{}:{}".format(os.getenv("RUN_ID"), os.getenv("AG_RANDOM_ACCESS_KEY"), utc_date)
 SECRET_KEY = base64.b64encode(os.getenv("AG_SECRET").encode())
+
+
+def validate_env():
+    for env_var in REQUIRED_ENV_VARS:
+        if not os.getenv(env_var):
+            raise Exception(f'Missing required environment variable "{env_var}"')
 
 
 def get_params():
@@ -51,6 +58,7 @@ class GrantTemporaryAccess:
         )
 
 
+validate_env()
 resource_name, user_email = get_params()
 GrantTemporaryAccess(resource_name, user_email).execute()
 print(f"Temporary grant successfullly created for {user_email} on {resource_name}")
