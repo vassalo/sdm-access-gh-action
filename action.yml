@@ -17,5 +17,7 @@ runs:
       shell: bash
     - run: pip install -r requirements.txt
       shell: bash
+    - run: ls
+      shell: bash
     - run: entrypoint.sh
       shell: bash
