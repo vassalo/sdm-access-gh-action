@@ -4,7 +4,7 @@ inputs:
   run-id:
     description: 'Github Action Workflow run id'
     required: true
-  random-access-key:
+  ag-random-access-key:
     description: 'Access Granter random access key'
     required: true
   ag-secret:

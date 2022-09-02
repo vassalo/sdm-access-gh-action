@@ -12,9 +12,15 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
 
+      - name: 'Generate Access Granter random access key'
+        id: ag-random-access-key-generator
+        run: echo "::set-output name=ag-random-access-key::$(echo $(python -c 'import uuid ; print(f"###random_access_key={uuid.uuid4()}###")'))"
+        shell: bash
+
       - name: 'SDM Access Granter Client'
         uses: ./
         with:
           run-id: ${{ github.run_id }}
-          server-host: ${{ secrets.SERVER_HOST }}
+          ag-random-access-key: ${{ steps.ag-random-access-key-generator.outputs.ag-random-access-key }}
           ag-secret: ${{ secrets.AG_SECRET }}
+          server-host: ${{ secrets.SERVER_HOST }}
