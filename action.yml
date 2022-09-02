@@ -1,5 +1,21 @@
 name: 'SDM Access GH Action'
 description: 'Manage access to strongDM resources via Github Actions'
+inputs:
+  run-id:
+    description: 'Github Action Workflow run id'
+    required: true
+  ag-secret:
+    description: 'Access Granter shared secret'
+    required: true
+  server-host:
+    description: 'Access Granter proxy host address'
+    required: true
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: "composite"
+  steps:
+    - run: apt install python3-pip
+      shell: bash
+    - run: pip install -r requirements.txt
+      shell: bash
+    - run: entrypoint.sh
+      shell: bash

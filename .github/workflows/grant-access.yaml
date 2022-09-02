@@ -1,0 +1,20 @@
+name: Grant Access
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  grant-access:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: 'SDM Access Granter Client'
+        uses: ./
+        with:
+          run-id: ${{ github.run_id }}
+          server-host: ${{ secrets.SERVER_HOST }}
+          ag-secret: ${{ secrets.AG_SECRET }}
