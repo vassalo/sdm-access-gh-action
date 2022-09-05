@@ -7,10 +7,10 @@ import base64
 
 
 GRANT_TIMEOUT = int(os.getenv("GRANT_TIMEOUT", "60"))  # minutes
-REQUIRED_ENV_VARS = ["RUN_ID", "RUN_ATTEMPT", "AG_RANDOM_ACCESS_KEY", "AG_SECRET", "SERVER_HOST"]
+REQUIRED_ENV_VARS = ["RUN_ID", "RANDOM_KEY_JOB_NAME", "AG_RANDOM_ACCESS_KEY", "AG_SECRET", "SERVER_HOST"]
 
 utc_date = datetime.datetime.utcnow().strftime('%Y-%m-%d')
-ACCESS_KEY = "{}:{}:{}:{}".format(os.getenv("RUN_ID"), os.getenv("RUN_ATTEMPT"), os.getenv("AG_RANDOM_ACCESS_KEY"), utc_date)
+ACCESS_KEY = "{}:{}:{}:{}".format(os.getenv("RUN_ID"), os.getenv("RANDOM_KEY_JOB_NAME"), os.getenv("AG_RANDOM_ACCESS_KEY"), utc_date)
 SECRET_KEY = base64.b64encode(os.getenv("AG_SECRET").encode())
 
 
