@@ -17,17 +17,11 @@ inputs:
     description: 'Access Granter proxy host address'
     required: true
 runs:
-  using: "composite"
-  steps:
-    - run: sudo apt install python3-pip
-      shell: bash
-    - run: pip install -r requirements.txt
-      shell: bash
-    - run: bash entrypoint.sh
-      shell: bash
-      env:
-        RUN_ID: ${{ inputs.run-id }}
-        RANDOM_KEY_JOB_NAME: ${{ inputs.ag-random-key-job-name }}
-        AG_RANDOM_KEY: ${{ inputs.ag-random-key }}
-        AG_SECRET: ${{ inputs.ag-secret }}
-        SERVER_HOST: ${{ inputs.server-host }}
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    RUN_ID: ${{ inputs.run-id }}
+    RANDOM_KEY_JOB_NAME: ${{ inputs.ag-random-key-job-name }}
+    AG_RANDOM_KEY: ${{ inputs.ag-random-key }}
+    AG_SECRET: ${{ inputs.ag-secret }}
+    SERVER_HOST: ${{ inputs.server-host }}
