@@ -4,11 +4,14 @@ on:
     branches: [ main ]
   workflow_dispatch:
 jobs:
-  generate-random-access-key:
+  grant-access:
     runs-on: ubuntu-latest
-    outputs:
-      ag-random-access-key: ${{ steps.ag-random-access-key-generator.outputs.ag-random-access-key }}
     steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
       - name: 'Generate Access Granter random access key'
         id: ag-random-access-key-generator
         run: |
@@ -17,20 +20,11 @@ jobs:
           echo "###random_access_key=$RANDOM_KEY###"
         shell: bash
 
-  grant-access:
-    needs: generate-random-access-key
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 0
-
       - name: 'SDM Access Granter Client'
         uses: ./
         with:
           run-id: ${{ github.run_id }}
           run-attempt: ${{ github.run_attempt }}
-          ag-random-access-key: ${{ needs.generate-random-access-key.outputs.ag-random-access-key }}
+          ag-random-access-key: ${{ steps.ag-random-access-key-generator.outputs.ag-random-access-key }}
           ag-secret: ${{ secrets.AG_SECRET }}
           server-host: ${{ secrets.SERVER_HOST }}
