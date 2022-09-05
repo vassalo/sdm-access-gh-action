@@ -4,10 +4,10 @@ inputs:
   run-id:
     description: 'Github Action Workflow run id'
     required: true
-  random-key-job-name:
-    description: 'Workflow Job name responsible for generating the random access key'
+  ag-random-key-job-name:
+    description: 'Workflow Job name responsible for generating the random key'
     required: true
-  ag-random-access-key:
+  ag-random-key:
     description: 'Access Granter random access key'
     required: true
   ag-secret:
@@ -27,7 +27,7 @@ runs:
       shell: bash
       env:
         RUN_ID: ${{ inputs.run-id }}
-        RANDOM_KEY_JOB_NAME: ${{ inputs.random-key-job-name }}
-        AG_RANDOM_ACCESS_KEY: ${{ inputs.ag-random-access-key }}
+        RANDOM_KEY_JOB_NAME: ${{ inputs.ag-random-key-job-name }}
+        AG_RANDOM_KEY: ${{ inputs.ag-random-key }}
         AG_SECRET: ${{ inputs.ag-secret }}
         SERVER_HOST: ${{ inputs.server-host }}

@@ -4,21 +4,21 @@ on:
     branches: [ main ]
   workflow_dispatch:
 jobs:
-  generate-random-access-key:
+  generate-random-key:
     runs-on: ubuntu-latest
     outputs:
-      ag-random-access-key: ${{ steps.ag-random-access-key-generator.outputs.ag-random-access-key }}
+      ag-random-key: ${{ steps.ag-random-key-generator.outputs.ag-random-key }}
     steps:
       - name: 'Generate Access Granter random access key'
-        id: ag-random-access-key-generator
+        id: ag-random-key-generator
         run: |
           export RANDOM_KEY=$(echo $(python -c "import uuid ; print(uuid.uuid4())"))
-          echo "::set-output name=ag-random-access-key::$RANDOM_KEY"
+          echo "::set-output name=ag-random-key::$RANDOM_KEY"
           echo "###random_access_key=$RANDOM_KEY###"
         shell: bash
 
   grant-access:
-    needs: generate-random-access-key
+    needs: generate-random-key
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -30,7 +30,7 @@ jobs:
         uses: ./
         with:
           run-id: ${{ github.run_id }}
-          random-key-job-name: generate-random-access-key
-          ag-random-access-key: ${{ needs.generate-random-access-key.outputs.ag-random-access-key }}
+          ag-random-key: ${{ needs.generate-random-key.outputs.ag-random-key }}
+          ag-random-key-job-name: generate-random-key
           ag-secret: ${{ secrets.AG_SECRET }}
           server-host: ${{ secrets.SERVER_HOST }}
