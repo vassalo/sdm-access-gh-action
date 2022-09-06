@@ -1,11 +1,8 @@
 name: 'SDM Access GH Action'
 description: 'Manage access to strongDM resources via Github Actions'
 inputs:
-  run-id:
-    description: 'Github Action Workflow run id'
-    required: true
   ag-random-key-job-name:
-    description: 'Workflow Job name responsible for generating the random key'
+    description: 'Workflow Job name responsible for printing the random UUID (v4) key in the format "###random_access_key=RANDOM_UUID_KEY###"'
     required: true
   ag-random-key:
     description: 'Access Granter random access key'
@@ -20,7 +17,7 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   env:
-    RUN_ID: ${{ inputs.run-id }}
+    RUN_ID: ${{ github.run_id }}
     RANDOM_KEY_JOB_NAME: ${{ inputs.ag-random-key-job-name }}
     AG_RANDOM_KEY: ${{ inputs.ag-random-key }}
     AG_SECRET: ${{ inputs.ag-secret }}
